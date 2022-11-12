@@ -15,26 +15,35 @@ var pluckFirstLineFromFileAsync = function(filePath) {
       if (err) {
         reject(err);
       } else {
-        resolve(data);
+        resolve(data.toString().split('\n')[0]);
       }
     });
   });
 
   result.then((data) => {
-    console.log(data.toString());
-    var fullString = data.toString();
-    var fullStringArr = fullString.split('\n');
-    return fullStringArr[0];
+    // console.log('in the then', data);
+    // var fullString = data;
+    return data;
   }).catch((err) => {
     console.log('caught err', err);
   });
 
-  return result; // we return a string but need to figure out how to return a promise while resolving our string result
+  return result;
 };
 
 // This function should retrieve the status code of a GET request to `url`
 var getStatusCodeAsync = function(url) {
-  // TODO
+  var result = new Promise((resolve, reject) => {
+    request.get(url, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response.statusCode);
+      }
+    });
+  });
+
+  return result;
 };
 
 // Export these functions so we can test them and reuse them in later exercises
